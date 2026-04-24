@@ -1,0 +1,59 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" 
+  url      = "file:./dev.sqlite"
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model Affiliate {
+  id             String   @id @default(uuid())
+  shop           String   
+  code           String   
+  commissionRate Float    
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  events         ConversionEvent[]
+
+  @@unique([shop, code]) 
+}
+
+model ConversionEvent {
+  id                  String   @id @default(uuid())
+  shop                String
+  affiliateId         String
+  orderId             String   
+  totalAmount         Float    
+  appCommissionAmount Float    
+  idempotencyKey      String   @unique 
+  billingStatus       String   @default("PENDING") 
+  createdAt           DateTime @default(now())
+
+  affiliate           Affiliate @relation(fields: [affiliateId], references: [id])
+
+  @@index([shop, billingStatus])
+}

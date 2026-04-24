@@ -1,0 +1,22 @@
+client_id = "9715b6473f1e1ba23d999d229e2b85d2"
+name = "affiliate-mvp"
+application_url = "https://example.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true
+
+[webhooks]
+api_version = "2024-07"
+register_filter_limit = 10
+
+  [[webhooks.subscriptions]]
+  topics = [ "orders/create" ]
+  uri = "/webhooks"
+
+[access_scopes]
+scopes = "write_products,read_orders,write_pixels,read_customer_events"
+
+[auth]
+redirect_urls = [ "https://example.com/api/auth" ]
