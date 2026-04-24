@@ -1,0 +1,19 @@
+name = "tracker-afiliados"
+type = "web_pixel_extension"
+uid = "715a991b-9c5e-e44e-d89c-a4b96c2c24fa216d6cf8"
+
+runtime_context = "strict"
+
+[settings]
+type = "object"
+
+[settings.fields.accountID]
+name = "Account ID"
+description = "Account ID"
+type = "single_line_text_field"
+validations =  [
+  { name = "min", value = "1" }
+]
+
+[network_access]
+direct_api_mode = "unrestricted"
